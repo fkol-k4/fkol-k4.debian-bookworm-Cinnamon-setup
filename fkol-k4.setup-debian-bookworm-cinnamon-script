@@ -60,6 +60,7 @@ deb-src http://debian.otenet.gr/debian/ stable-backports main contrib non-free n
 # deb http://debian.otenet.gr/debian/ stable-proposed-updates main non-free non-free-firmware
 # deb-src http://debian.otenet.gr/debian/ stable-proposed-updates main non-free non-free-firmware
 "
+	# 	Starting action
 	echo "$sources_list" | sudo tee /etc/apt/sources.list
 	# 	2. Flathub Setup
 	sudo apt-get --yes install flatpak
@@ -104,10 +105,10 @@ function fkol_install_dpkg_tools() {
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
     sudo apt-get --yes install \
-								apt-file	\
-								deborphan	\
-								gdebi		\
-								synaptic
+        apt-file	\
+        deborphan	\
+        gdebi		\
+        synaptic
 	sync
 }
 
@@ -120,19 +121,240 @@ function fkol_install_essential_tools() {
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
     sudo apt-get --yes install \
-								build-essential	\
-								cpulimit		\
-								debootstrap		\
-								dialog			\
-								dkms			\
-								fakeroot		\
-								kernel-wedge	\
-								locate			\
-								tree			\
-								zenity			\
-								zram-tools
+        build-essential	\
+        cpulimit		\
+        debootstrap		\
+        dialog			\
+        dkms			\
+        fakeroot		\
+        kernel-wedge	\
+        locate			\
+        tree			\
+        zenity			\
+        zram-tools
 	sync
 }
+
+# 	Installing compression algorithms
+function fkol_install_compression_algorithms() {
+     message="$BOLD_LETTERS
+
+    Installing compression algorithms...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+        lz4		\
+        lzd		\
+        lzip	\
+        lzma	\
+        lzop	\
+        xz-utils
+	sync
+}
+
+# 	Installing media codecs
+function fkol_install_media_codecs() {
+     message="$BOLD_LETTERS
+
+    Installing compression algorithms...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+        ffmpeg						\
+        gstreamer1.0-plugins-base	\
+        gstreamer1.0-plugins-bad 	\
+        gstreamer1.0-plugins-ugly 	\
+        libavcodec59 				\
+        libavcodec-extra59
+	sync
+}
+
+# 	Installing Java
+function fkol_install_java() {
+     message="$BOLD_LETTERS
+
+    Installing java...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+		default-jre
+	sync
+}
+
+# 	Installing text & code editors
+function fkol_install_text_editors() {
+     message="$BOLD_LETTERS
+
+    Installing text & code editors...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install 		\
+		nano						\
+		mousepad 					\
+		bluefish bluefish-plugins 	\
+		geany geany-plugins
+	sync
+}
+
+# 	Installing admin tools
+function fkol_install_admin_tools() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+		btrfs-progs \
+		fancontrol \
+		gddrescue \
+		gparted \
+		gsmartcontrol \
+		htop \
+		iotop \
+		lm-sensors \
+		lshw-gtk \
+		lsof \
+		lsscsi \
+		mc
+	sync
+}
+
+
+# 	Installing web related packages
+function fkol_install_web_tools() {
+     message="$BOLD_LETTERS
+
+    Installing web related packages...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+		firefox
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
+
+# 	Installing 
+function fkol_install_() {
+     message="$BOLD_LETTERS
+
+    Installing ...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+	sync
+}
+
 
 
 
