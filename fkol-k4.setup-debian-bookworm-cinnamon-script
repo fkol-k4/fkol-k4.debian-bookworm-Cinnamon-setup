@@ -1,0 +1,638 @@
+#!/bin/bash
+
+#   file: org.fkol-k4.setup-debian-bookworm-cinnamon-script
+#   type: Bash script
+#   action: Sets up a newly installed Debian Bookworm with Cinnamon DE
+
+#   Copyright (C) 2024  fkol k4, "fkolyvas at gmail dot com".
+
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+
+#   You should have received a copy of the GNU General Public License along
+#   with this program; if not, write to the Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+#	0.1 Script variables & command aliases
+BOLD_LETTERS=$(tput bold)
+NORMAL_LETTERS=$(tput sgr0)
+WORKING_DIR="/tmp/SetupDirectory/"
+GIT_REPO=""
+REPO_DIR=""
+SYSTEMFILES_DIR=""
+
+#	0.2	Set up repositories & update system
+function fkol_set_up_system_repositories() {
+	# 	1. apt repositories
+	sources_list= "
+#deb cdrom:[Debian GNU/Linux 12.4.0 _Bookworm_ - Official amd64 NETINST with firmware 20231210-17:56]/ bookworm main non-free-firmware
+
+## Custom .etc/apt/sources.list file by fkol-k4
+
+# Debian stable repository entries
+deb http://debian.otenet.gr/debian/ stable main contrib non-free non-free-firmware
+deb-src http://debian.otenet.gr/debian/ stable main contrib non-free non-free-firmware
+
+# Debian stable-updates repository entries
+deb http://debian.otenet.gr/debian/ stable-updates main contrib non-free non-free-firmware
+deb-src http://debian.otenet.gr/debian/ stable-updates main contrib non-free non-free-firmware
+
+# Debian stable-security repository entries
+deb http://security.debian.org/debian-security stable-security main contrib non-free non-free-firmware
+deb-src http://security.debian.org/debian-security stable-security main contrib non-free non-free-firmware
+
+# Debian stable-backports repository entries
+deb http://debian.otenet.gr/debian/ stable-backports main contrib non-free non-free-firmware
+deb-src http://debian.otenet.gr/debian/ stable-backports main contrib non-free non-free-firmware
+
+# Debian  stable-backports-sloppy repository entries
+# deb http://debian.otenet.gr/debian/ stable-backports-sloppy main contrib non-free non-free-firmware
+# deb-src http://debian.otenet.gr/debian/ stable-backports-sloppy main contrib non-free non-free-firmware
+
+# Debian  stable-backports-sloppy repository entries
+# deb http://debian.otenet.gr/debian/ stable-proposed-updates main non-free non-free-firmware
+# deb-src http://debian.otenet.gr/debian/ stable-proposed-updates main non-free non-free-firmware
+"
+	echo "$sources_list" | sudo tee /etc/apt/sources.list
+	# 	2. Flathub Setup
+	sudo apt-get --yes install flatpak
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	#	3. Update system
+	sudo apt-get --quiet update
+	sudo apt-get -y dist-upgrade
+    flatpak update --assumeyes
+	sudo apt-get --yes clean
+	sudo apt-get --yes autoclean
+	sudo apt-get --yes --purge autoremove
+	sudo apt-get --yes --fix-missing install
+    sudo apt-get --yes --fix-broken install
+    sudo dpkg --configure -a
+    # 	Notify about restart
+    echo "$BOLD_LETTERS
+    Please consider rebooting your system and try the install script again...
+    Thank you for your collaboration
+    $NORMAL_LETTERS"
+}
+
+# 	1.1	Installing essential packages (kernels & libraries)
+function fkol_install_headers_and_modules() {
+    # Install kernel (headers modules & dependencies)
+    message="$BOLD_LETTERS
+
+    Installing linux kernel & headers...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install linux-image-amd64 linux-headers-amd64 firmware-linux-nonfree
+    sudo apt-get --yes --no-install-recommends build-dep linux-image-amd64
+    sync
+}
+
+# 	1.2	Installing dpkg related tools
+function fkol_install_dpkg_tools() {
+     message="$BOLD_LETTERS
+
+    Installing dpkg related tools...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+								apt-file	\
+								deborphan	\
+								gdebi		\
+								synaptic
+	sync
+}
+
+# 	1.3	Installing essential tools
+function fkol_install_essential_tools() {
+     message="$BOLD_LETTERS
+
+    Installing dpkg related tools...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    sudo apt-get --yes install \
+								build-essential	\
+								cpulimit		\
+								debootstrap		\
+								dialog			\
+								dkms			\
+								fakeroot		\
+								kernel-wedge	\
+								locate			\
+								tree			\
+								zenity			\
+								zram-tools
+	sync
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function choose_package() {
+    # Choose extra packages
+    clear
+    echo "$BOLD_LETTERS You can choose the action you want to install from the list below $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS by entering the number next to it, or type anything else to exit. $NORMAL_LETTERS"
+    echo
+    echo "$BOLD_LETTERS 1. Setup your system repositories (APT & Flathub) $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 2. Freetube Media Player $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 3. Oracle Virtualbox $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 4. VariCAD for Linux $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 5. Remarkable Markdown Editor $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 6. Haroopad Markdown Editor $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 7. Plank Dock $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 8. Add NOPASSWD option for your sudo use $NORMAL_LETTERS"
+    echo "$BOLD_LETTERS 0. Exit (default) $NORMAL_LETTERS"
+    
+    echo
+    read -p "$BOLD_LETTERS Enter your choice:  $NORMAL_LETTERS" extra_package
+    # Execute action
+    if [[ "$extra_package" == "1" ]]; then
+        install_stremio
+    elif [[ "$extra_package" == "2" ]]; then
+        install_freetube
+    elif [[ "$extra_package" == "3" ]]; then
+        install_oracle_virtualbox
+    elif [[ "$extra_package" == "4" ]]; then
+        install_VariCAD
+    elif [[ "$extra_package" == "5" ]]; then
+        install_remarkable_editor
+    elif [[ "$extra_package" == "6" ]]; then
+        install_haroopad_editor
+    elif [[ "$extra_package" == "7" ]]; then
+        install_plank_dock
+    elif [[ "$extra_package" == "8" ]]; then
+        add_nopasswd_option
+    else
+        echo "$BOLD_LETTERS 
+        Ok, exiting...
+         $NORMAL_LETTERS"; sleep 2
+        return # exits function
+        # this is for exiting the entire script
+        # kill -INT $$
+    fi
+    choose_again
+}
+
+function choose_again() {
+    # Choose again after 
+    clear
+    msg="$BOLD_LETTERS Do you want to install anything else? (Y/n):  $NORMAL_LETTERS"
+    echo
+    read -p "$msg" answer
+    if [[ "$answer" == "Y" ]] || [[ "$answer" == "y" ]]; then
+        echo "$BOLD_LETTERS Ok, continuing... $NORMAL_LETTERS"; sleep 2
+        clear
+        choose_package
+    else
+        echo; echo "$BOLD_LETTERS Ok, exiting... $NORMAL_LETTERS"; echo; sleep 2
+    fi
+}
