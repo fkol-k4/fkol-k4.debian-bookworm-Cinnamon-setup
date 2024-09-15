@@ -20,7 +20,7 @@
 #   with this program; if not, write to the Free Software Foundation, Inc.,
 #   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#	0.1 Script variables & command aliases
+#   0.1 Script variables & command aliases
 BOLD_LETTERS=$(tput bold)
 NORMAL_LETTERS=$(tput sgr0)
 WORKING_DIR="/tmp/SetupDirectory/"
@@ -28,10 +28,10 @@ GIT_REPO=""
 REPO_DIR=""
 SYSTEMFILES_DIR=""
 
-#	0.2	Set up repositories & update system
+#   0.2 Set up repositories & update system
 function fkol_set_up_system_repositories() {
-	# 	1. apt repositories
-	sources_list= "
+    #   1. apt repositories
+    sources_list= "
 #deb cdrom:[Debian GNU/Linux 12.4.0 _Bookworm_ - Official amd64 NETINST with firmware 20231210-17:56]/ bookworm main non-free-firmware
 
 ## Custom .etc/apt/sources.list file by fkol-k4
@@ -60,29 +60,29 @@ deb-src http://debian.otenet.gr/debian/ stable-backports main contrib non-free n
 # deb http://debian.otenet.gr/debian/ stable-proposed-updates main non-free non-free-firmware
 # deb-src http://debian.otenet.gr/debian/ stable-proposed-updates main non-free non-free-firmware
 "
-	# 	Starting action
-	echo "$sources_list" | sudo tee /etc/apt/sources.list
-	# 	2. Flathub Setup
-	sudo apt-get --yes install flatpak
-	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-	#	3. Update system
-	sudo apt-get --quiet update
-	sudo apt-get -y dist-upgrade
+    #   Starting action
+    echo "$sources_list" | sudo tee /etc/apt/sources.list
+    #   2. Flathub Setup
+    sudo apt-get --yes install flatpak
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    #   3. Update system
+    sudo apt-get --quiet update
+    sudo apt-get --yes dist-upgrade
     flatpak update --assumeyes
-	sudo apt-get --yes clean
-	sudo apt-get --yes autoclean
-	sudo apt-get --yes --purge autoremove
-	sudo apt-get --yes --fix-missing install
+    sudo apt-get --yes clean
+    sudo apt-get --yes autoclean
+    sudo apt-get --yes --purge autoremove
+    sudo apt-get --yes --fix-missing install
     sudo apt-get --yes --fix-broken install
     sudo dpkg --configure -a
-    # 	Notify about restart
+    #   Notify about restart
     echo "$BOLD_LETTERS
     Please consider rebooting your system and try the install script again...
     Thank you for your collaboration
     $NORMAL_LETTERS"
 }
 
-# 	1.1	Installing essential packages (kernels & libraries)
+#   1.1 Installing essential packages (kernels & libraries)
 function fkol_install_headers_and_modules() {
     # Install kernel (headers modules & dependencies)
     message="$BOLD_LETTERS
@@ -92,11 +92,11 @@ function fkol_install_headers_and_modules() {
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
     sudo apt-get --yes install linux-image-amd64 linux-headers-amd64 firmware-linux-nonfree
-    sudo apt-get --yes --no-install-recommends build-dep linux-image-amd64
+    sudo apt-get --yes install --no-install-recommends build-dep linux-image-amd64
     sync
 }
 
-# 	1.2	Installing dpkg related tools
+#   1.2 Installing dpkg related tools
 function fkol_install_dpkg_tools() {
      message="$BOLD_LETTERS
 
@@ -104,15 +104,14 @@ function fkol_install_dpkg_tools() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-        apt-file	\
-        deborphan	\
-        gdebi		\
-        synaptic
-	sync
+    sudo apt-get --yes install apt-file
+    sudo apt-get --yes install deborphan
+    sudo apt-get --yes install gdebi
+    sudo apt-get --yes install synaptic
+    sync
 }
 
-# 	1.3	Installing essential tools
+#   1.3 Installing essential tools
 function fkol_install_essential_tools() {
      message="$BOLD_LETTERS
 
@@ -120,22 +119,21 @@ function fkol_install_essential_tools() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-        build-essential	\
-        cpulimit		\
-        debootstrap		\
-        dialog			\
-        dkms			\
-        fakeroot		\
-        kernel-wedge	\
-        locate			\
-        tree			\
-        zenity			\
-        zram-tools
-	sync
+    sudo apt-get --yes install build-essential
+    sudo apt-get --yes install cpulimit
+    sudo apt-get --yes install debootstrap
+    sudo apt-get --yes install dialog
+    sudo apt-get --yes install dkms
+    sudo apt-get --yes install fakeroot
+    sudo apt-get --yes install kernel-wedge
+    sudo apt-get --yes install locate
+    sudo apt-get --yes install tree
+    sudo apt-get --yes install zenity
+    sudo apt-get --yes install zram-tools
+    sync
 }
 
-# 	Installing compression algorithms
+#   Installing compression algorithms
 function fkol_install_compression_algorithms() {
      message="$BOLD_LETTERS
 
@@ -143,17 +141,16 @@ function fkol_install_compression_algorithms() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-        lz4		\
-        lzd		\
-        lzip	\
-        lzma	\
-        lzop	\
-        xz-utils
-	sync
+    sudo apt-get --yes install lz4
+    sudo apt-get --yes install lzd
+    sudo apt-get --yes install lzip
+    sudo apt-get --yes install lzma
+    sudo apt-get --yes install lzop
+    sudo apt-get --yes install xz-utils
+    sync
 }
 
-# 	Installing media codecs
+#   Installing media codecs
 function fkol_install_media_codecs() {
      message="$BOLD_LETTERS
 
@@ -161,17 +158,15 @@ function fkol_install_media_codecs() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-        ffmpeg						\
-        gstreamer1.0-plugins-base	\
-        gstreamer1.0-plugins-bad 	\
-        gstreamer1.0-plugins-ugly 	\
-        libavcodec59 				\
-        libavcodec-extra59
-	sync
+    sudo apt-get --yes install ffmpeg
+    sudo apt-get --yes install frei0r-plugins
+    sudo apt-get --yes install gstreamer1.0-plugins-base  \
+        gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly
+    sudo apt-get --yes install libavcodec59 libavcodec-extra59
+    sync
 }
 
-# 	Installing Java
+#   Installing Java
 function fkol_install_java() {
      message="$BOLD_LETTERS
 
@@ -179,12 +174,11 @@ function fkol_install_java() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-		default-jre
-	sync
+    sudo apt-get --yes install default-jre
+    sync
 }
 
-# 	Installing text & code editors
+#   Installing text & code editors
 function fkol_install_text_editors() {
      message="$BOLD_LETTERS
 
@@ -192,15 +186,14 @@ function fkol_install_text_editors() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install 		\
-		nano						\
-		mousepad 					\
-		bluefish bluefish-plugins 	\
-		geany geany-plugins
-	sync
+    sudo apt-get --yes install nano
+    sudo apt-get --yes install mousepad
+    sudo apt-get --yes install bluefish bluefish-plugins
+    sudo apt-get --yes install geany geany-plugins
+    sync
 }
 
-# 	Installing admin tools
+#   Installing admin tools
 function fkol_install_admin_tools() {
      message="$BOLD_LETTERS
 
@@ -208,24 +201,23 @@ function fkol_install_admin_tools() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-		btrfs-progs \
-		fancontrol \
-		gddrescue \
-		gparted \
-		gsmartcontrol \
-		htop \
-		iotop \
-		lm-sensors \
-		lshw-gtk \
-		lsof \
-		lsscsi \
-		mc
-	sync
+    sudo apt-get --yes install btrfs-progs
+    sudo apt-get --yes install fancontrol
+    sudo apt-get --yes install gddrescue
+    sudo apt-get --yes install gparted
+    sudo apt-get --yes install gsmartcontrol
+    sudo apt-get --yes install htop
+    sudo apt-get --yes install iotop
+    sudo apt-get --yes install lm-sensors
+    sudo apt-get --yes install lshw-gtk
+    sudo apt-get --yes install lsof
+    sudo apt-get --yes install lsscsi
+    sudo apt-get --yes install mc
+    sync
 }
 
 
-# 	Installing web related packages
+#   Installing web related packages
 function fkol_install_web_tools() {
      message="$BOLD_LETTERS
 
@@ -233,628 +225,199 @@ function fkol_install_web_tools() {
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-		firefox
-	sync
+    sudo apt-get --yes install axel                                     # Download manager
+    sudo apt-get --yes install curl
+    sudo apt-get --yes install deluge deluge-gtk                        # Torrent client
+    sudo apt-get --yes install firefox
+    sudo apt-get --yes install git git-extras
+    sudo apt-get --yes install rsync
+    sudo apt-get --yes install zsync
+    sync
 }
 
 
-# 	Installing 
-function fkol_install_() {
+#   Installing Google Chrome browser
+function fkol_install_google_chrome() {
      message="$BOLD_LETTERS
 
-    Installing ...
+    Installing Google Chrome browser...
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+    #   Add repository entry in /etc/apt/sources.list.d/ directory
+    echo '# Home: http://dl.google.com/linux
+# GetKey: wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main #Google Chrome
+' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+    #   Add repository key
+    #   wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - # This is the old way
+    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -     # This is the new way
+    #   Update repositories
+    sudo apt-get --quiet update
+    sudo apt-get --yes install google-chrome-stable
+    sync
 }
 
 
-# 	Installing 
-function fkol_install_() {
+#   Installing Media related packages
+function fkol_install_media_packages() {
      message="$BOLD_LETTERS
 
-    Installing ...
+    Installing Media related packages...
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+    sudo apt-get --yes install audacity                                 # Sound editor
+    sudo apt-get --yes install blender                                  # 3D Graphics & animation
+    sudo apt-get --yes install clementine                               # Music Player
+    sudo apt-get --yes install gimp gimp-data-extras \
+        gimp-help-el gimp-help-en gimp-gutenprint                       # Gimp & plugins
+    sudo apt-get --yes install handbrake                                # Open source video transcoder
+    sudo apt-get --yes install inkscape inkscape-tutorials              # Vector Graphics Editor
+    sudo apt-get --yes install kdenlive                                 # Video editor
+    sudo apt-get --yes install mkvtoolnix mkvtoolnix-gui                # Matroska (.mkv) tools
+    sudo apt-get --yes install mp3check
+    sudo apt-get --yes install mp3diags
+    sudo apt-get --yes install mpv                                      # Media Player
+    sudo apt-get --yes install quodlibet                                # Music Player
+    sudo apt-get --yes install soundconverter                           # Sound format converter
+    sudo apt-get --yes install vlc                                      # Media Player
+    sync
 }
 
 
-# 	Installing 
-function fkol_install_() {
+#   Installing office packages
+function fkol_install_office_packages() {
      message="$BOLD_LETTERS
 
-    Installing ...
+    Installing office packages...
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+    sudo apt-get --yes install aspell aspell-el aspell-en aspell-fr     # GNU spell checker
+    sudo apt-get --yes install catfish                                  # File searching tool
+    sudo apt-get --yes install cheese                                   # Web camera tool
+    sudo apt-get --yes install cups                                     # Linux printing server
+    sudo apt-get --yes install freecad                                  # CAD software
+    sudo apt-get --yes install ghostscript                              # PDF interpreter
+    sudo apt-get --yes install gucharmap                                # Character map
+    sudo apt-get --yes install libreoffice \
+        libreoffice-help-el libreoffice-help-en-us libreoffice-l10n-el \
+        libreoffice-style-elementary                                    # Complete Office suite
+    sudo apt-get -y install meld                                        # Visual diff and merge tool
+    sudo apt-get --yes install seahorse                                 # GNOME front end for GnuPG (GNU Privacy Guard)
+    sudo apt-get --yes install xsane                                    # X11 frontend for "Scanner Access Now Easy"
+    sync
 }
 
 
-# 	Installing 
-function fkol_install_() {
+#   Installing Font packages
+function fkol_install_font_packages() {
      message="$BOLD_LETTERS
 
-    Installing ...
+    Installing Font packages...
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+    sudo apt-get --yes install fontforge fontforge-doc fontforge-extras
+    sudo apt-get --yes install fonts-adf-*
+    sudo apt-get --yes install fonts-dejavu  fonts-dejavu-extra
+    sudo apt-get --yes install fonts-ecolier-lignes-court
+    sudo apt-get --yes install fonts-freefont-*
+    sudo apt-get --yes install fonts-gfs-*
+    sudo apt-get --yes install fonts-liberation fonts-liberation2
+    sudo apt-get --yes install fonts-linuxlibertine
+    sudo apt-get --yes install fonts-noto fonts-noto-extra \
+        fonts-noto-hinted fonts-noto-mono fonts-noto-ui-core \
+        fonts-noto-ui-extra
+    sudo apt-get --yes install fonts-open-sans
+    sudo apt-get --yes install fonts-roboto fonts-roboto-hinted
+    sudo apt-get --yes install fonts-sil-*
+    sudo apt-get --yes install fonts-tlwg-*
+    sudo apt-get --yes install fonts-ubuntu fonts-ubuntu-*
+    sync
 }
 
 
-# 	Installing 
-function fkol_install_() {
-     message="$BOLD_LETTERS
+#   Installing password safe
+function fkol_install_keepassx() {
+    message="$BOLD_LETTERS
 
-    Installing ...
+    Installing password safe...
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+    sudo apt-get --yes install keepassx                                 # Password safe keeping
+    sync
 }
 
+#   Cinnamon hidden settings
+function fkol_cinnamon_hidden_settings() {
+    message="$BOLD_LETTERS
 
-# 	Installing 
-function fkol_install_() {
-     message="$BOLD_LETTERS
-
-    Installing ...
+    Changing Cinnammon hidden settings...
 
     $NORMAL_LETTERS"
     clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+    sudo apt-get --yes install dconf-editor
+    sync
+    gsettings set org.gnome.Evince page-cache-size 3072                 # Increases page cache size so that we can do more zoom
+    gsettings set org.gnome.Evince.Default zoom 150                     # More zoom
+    gsettings set org.gtk.gtk4.Settings.FileChooser \
+        location-mode 'filename-entry'                                  # Set filename entry instead of path buttons for gtk4 file chooser
+    gsettings set org.gtk.Settings.FileChooser location-mode \
+        'filename-entry'                                                # Set filename entry instead of path buttons for gtk3 file chooser
+    gsettings set org.nemo.preferences show-location-entry true         # Set filename entry instead of path buttons for Nemo file manager
+    sync
 }
 
-
-# 	Installing 
-function fkol_install_() {
-     message="$BOLD_LETTERS
-
-    Installing ...
-
-    $NORMAL_LETTERS"
-    clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+#   Adding Root privileges to user
+function fkol_add_nopasswd_sudoers_file() {
+    #   Create file
+    echo "## Added file to grant no password privileges to $USER.
+    $USER ALL=(ALL:ALL) NOPASSWD: ALL
+    " | sudo tee "etc/sudoers.d/$USER"
+    sync
 }
 
-
-# 	Installing 
-function fkol_install_() {
-     message="$BOLD_LETTERS
-
-    Installing ...
-
-    $NORMAL_LETTERS"
-    clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
+#   Change system default alternatives
+function fkol_update_alternatives() {
+    sudo update-alternatives --all
+    sync
 }
 
-
-# 	Installing 
-function fkol_install_() {
-     message="$BOLD_LETTERS
-
-    Installing ...
-
-    $NORMAL_LETTERS"
-    clear; echo -e "$message"; sleep 3
-    sudo apt-get --yes install \
-	sync
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function choose_package() {
-    # Choose extra packages
-    clear
-    echo "$BOLD_LETTERS You can choose the action you want to install from the list below $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS by entering the number next to it, or type anything else to exit. $NORMAL_LETTERS"
-    echo
-    echo "$BOLD_LETTERS 1. Setup your system repositories (APT & Flathub) $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 2. Freetube Media Player $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 3. Oracle Virtualbox $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 4. VariCAD for Linux $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 5. Remarkable Markdown Editor $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 6. Haroopad Markdown Editor $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 7. Plank Dock $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 8. Add NOPASSWD option for your sudo use $NORMAL_LETTERS"
-    echo "$BOLD_LETTERS 0. Exit (default) $NORMAL_LETTERS"
-    
-    echo
-    read -p "$BOLD_LETTERS Enter your choice:  $NORMAL_LETTERS" extra_package
-    # Execute action
-    if [[ "$extra_package" == "1" ]]; then
-        install_stremio
-    elif [[ "$extra_package" == "2" ]]; then
-        install_freetube
-    elif [[ "$extra_package" == "3" ]]; then
-        install_oracle_virtualbox
-    elif [[ "$extra_package" == "4" ]]; then
-        install_VariCAD
-    elif [[ "$extra_package" == "5" ]]; then
-        install_remarkable_editor
-    elif [[ "$extra_package" == "6" ]]; then
-        install_haroopad_editor
-    elif [[ "$extra_package" == "7" ]]; then
-        install_plank_dock
-    elif [[ "$extra_package" == "8" ]]; then
-        add_nopasswd_option
-    else
-        echo "$BOLD_LETTERS 
-        Ok, exiting...
-         $NORMAL_LETTERS"; sleep 2
-        return # exits function
-        # this is for exiting the entire script
-        # kill -INT $$
-    fi
-    choose_again
-}
-
-function choose_again() {
-    # Choose again after 
-    clear
-    msg="$BOLD_LETTERS Do you want to install anything else? (Y/n):  $NORMAL_LETTERS"
-    echo
-    read -p "$msg" answer
-    if [[ "$answer" == "Y" ]] || [[ "$answer" == "y" ]]; then
-        echo "$BOLD_LETTERS Ok, continuing... $NORMAL_LETTERS"; sleep 2
-        clear
-        choose_package
-    else
-        echo; echo "$BOLD_LETTERS Ok, exiting... $NORMAL_LETTERS"; echo; sleep 2
-    fi
+#   Theming & personalization
+function fkol_cinnamon_theming() {
+    # First, install cursor themes
+    sudo apt-get --yes install bibata-cursor-theme \
+        breeze-cursor-theme crystalcursors dmz-cursor-theme \
+        oxygencursors
+    # Then, some icon themes
+    sudo apt-get --yes install adwaita-icon-theme breeze-icon-theme     \
+        elementary-icon-theme elementary-xfce-icon-theme                \
+        faenza-icon-theme gnome-brave-icon-theme gnome-noble-icon-theme \
+        gnome-wine-icon-theme gnome-wise-icon-theme                     \
+        gnome-icon-theme-nuovo mint-y-icons numix-icon-theme            \
+        numix-icon-theme-circle obsidian-icon-theme oxygen-icon-theme   \
+        suru-icon-theme tango-icon-theme yaru-theme-icon
+    # After that, some gtk themes
+    sudo apt-get --yes install blackbird-gtk-theme bluebird-gtk-theme   \
+        breeze-gtk-theme darkblood-gtk-theme darkfire-gtk-theme         \
+        darkcold-gtk-theme darkmint-gtk-theme greybird-gtk-theme        \
+        gnome-theme-gilouche numix-gtk-theme shiki-brave-theme          \
+        shiki-noble-theme shiki-wine-theme shiki-wise-theme             \
+        yaru-theme-gtk
+    sync                                                                # Sync I/O
+    # And finally, grab some themes from Linux Mint Debian Edition repositories
+    cd /tmp/
+    wget http://packages.linuxmint.com/pool/main/m/mint-l-icons/mint-l-icons_1.7.2_all.deb
+    wget http://packages.linuxmint.com/pool/main/m/mint-l-theme/mint-l-theme_1.9.8_all.deb
+    wget http://packages.linuxmint.com/pool/main/m/mint-x-icons/mint-x-icons_1.7.1_all.deb
+    wget http://packages.linuxmint.com/pool/main/m/mint-y-icons/mint-y-icons_1.7.7_all.deb
+    sudo gdebi --non-interactive mint-l-icons_*.deb
+    sudo gdebi --non-interactive mint-l-theme_*.deb
+    sudo gdebi --non-interactive mint-x-icons_*.deb
+    sudo gdebi --non-interactive mint-y-icons_*.deb
+    sync                                                                # Sync I/O
+    cd
 }
