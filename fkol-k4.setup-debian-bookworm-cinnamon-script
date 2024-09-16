@@ -228,10 +228,37 @@ function fkol_install_web_tools() {
     sudo apt-get --yes install axel                                     # Download manager
     sudo apt-get --yes install curl
     sudo apt-get --yes install deluge deluge-gtk                        # Torrent client
-    sudo apt-get --yes install firefox
     sudo apt-get --yes install git git-extras
+    sudo apt-get --yes install links2									# Terminal web browser
     sudo apt-get --yes install rsync
     sudo apt-get --yes install zsync
+    sync
+}
+
+# Installing Firefox web browser
+function fkol_mozilla_firefox() {
+     message="$BOLD_LETTERS
+
+    Installing Mozilla Firefox web browser...
+
+    $NORMAL_LETTERS"
+    clear; echo -e "$message"; sleep 3
+    # Add repository entry
+    echo "# Mozilla Firefox repository.
+deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main
+" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+	# Import Mozilla APT repository signing key:
+	wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg 		\
+	-O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+	# Configure APT pinning to prioritize packages from the Mozilla repository: 
+	echo '
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+' | sudo tee /etc/apt/preferences.d/mozilla 
+	# Update repositories and install
+	sudo apt-get --quiet update
+	sudo apt-get --yes install firefox
     sync
 }
 
@@ -420,4 +447,15 @@ function fkol_cinnamon_theming() {
     sudo gdebi --non-interactive mint-y-icons_*.deb
     sync                                                                # Sync I/O
     cd
+}
+
+
+# 	Set system alternatives
+function fkol_update_alternatives() {
+	# There is 1 choice for the alternative gnome-text-editor (providing /usr/bin/gnome-text-editor).
+	# There are 2 choices for the alternative gnome-www-browser (providing /usr/bin/gnome-www-browser).
+	# There are 14 choices for the alternative x-cursor-theme (providing /usr/share/icons/default/index.theme).
+	# There are 6 choices for the alternative x-terminal-emulator (providing /usr/bin/x-terminal-emulator).
+	# There are 3 choices for the alternative x-www-browser (providing /usr/bin/x-www-browser).
+	sync
 }
